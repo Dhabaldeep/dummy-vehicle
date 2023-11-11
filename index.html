@@ -7,11 +7,11 @@
 </head>
 <body>
     <h1>Location Tracker v2</h1>
-
+    <h2 id="log">hh </h2>
     <script>
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.watchPosition(sendLocation);
+                navigator.geolocation.getCurrentPosition(sendLocation)
             } else {
                 console.error("Error: Geolocation not supported");
             }
@@ -41,9 +41,9 @@
             xhr.send(jsonData);
             console.log("Data Sent !");
             console.log(data);
+            document.getElementById('log').innerText = `Lat: ${latitude} || Long: ${longitude}`;
         }
-
-        getLocation(); // Call it once to start watching the location
+        setInterval(getLocation, 100);
     </script>
 </body>
 </html>
