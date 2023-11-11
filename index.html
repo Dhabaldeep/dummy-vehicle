@@ -6,7 +6,7 @@
     <title>Location Tracker</title>
 </head>
 <body>
-    <h1>Location Tracker v2</h1>
+    <h1>Location Tracker v3</h1>
     <h2 id="log">hh </h2>
     <script>
         function getLocation() {
@@ -43,7 +43,7 @@
             console.log(data);
             document.getElementById('log').innerText = `Lat: ${latitude} || Long: ${longitude}`;
         }
-        setInterval(getLocation, 100);
+        setInterval(getLocation, 1000);
     </script>
 </body>
 </html>
