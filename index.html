@@ -6,43 +6,44 @@
     <title>Location Tracker</title>
 </head>
 <body>
-    <h1>Location Tracker</h1>
+    <h1>Location Tracker v2</h1>
 
     <script>
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocation)
+                navigator.geolocation.watchPosition(sendLocation);
             } else {
-                console.error("Erorrr")
+                console.error("Error: Geolocation not supported");
             }
         }
 
         function sendLocation(position) {
-            const latitude = position.coords.latitude
-            const longitude = position.coords.longitude
-            const userId="user1"
-            console.log("Got Location Sucessfully !")
-            sendDataToAPI(userId,latitude,longitude)
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const userId = "user1";
+            console.log("Got Location Successfully!");
+            sendDataToAPI(userId, latitude, longitude);
         }
 
-        function sendDataToAPI(userId,latitude,longitude) {
-            const apiEndpoint = 'https://garbage-collect-backend.onrender.com/update/'
+        function sendDataToAPI(userId, latitude, longitude) {
+            const apiEndpoint = 'https://garbage-collect-backend.onrender.com/update/';
 
-            const xhr = new XMLHttpRequest()
+            const xhr = new XMLHttpRequest();
 
             const data = {
-                userId:userId,
+                userId: userId,
                 latitude: latitude,
                 longitude: longitude,
             };
-            const jsonData = JSON.stringify(data)
-            xhr.open("POST", apiEndpoint, true)
-            xhr.setRequestHeader("Content-Type", "application/json")
-            xhr.send(jsonData)
-            console.log("Data Sent !")
+            const jsonData = JSON.stringify(data);
+            xhr.open("POST", apiEndpoint, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(jsonData);
+            console.log("Data Sent !");
             console.log(data);
         }
-        setInterval(getLocation, 200)
+
+        getLocation(); // Call it once to start watching the location
     </script>
 </body>
 </html>
