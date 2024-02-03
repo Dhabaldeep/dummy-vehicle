@@ -1,9 +1,11 @@
+<!-- /frontend/src/components/MapComponent.jsx -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Location Tracker</title>
+    <!-- Include Socket.IO client library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
   </head>
   <body>
@@ -11,10 +13,7 @@
     <h2 id="log">hh</h2>
     <script>
       // Connect to the WebSocket server
-      const socket = io("https://garbage-tracking-backend.onrender.com"); // Replace with your server URL
-      socket.on("connect", () => {
-        console.log("Socket connected successfully!");
-      });
+      const socket = io("https://garbage-tracking-backend.onrender.com/");
 
       function getLocation() {
         if (navigator.geolocation) {
