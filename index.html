@@ -53,11 +53,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
   </head>
   <body>
-    <h1>Location Tracker v5</h1>
+    <h1>Location Tracker v6</h1>
     <h2 id="log">hh</h2>
     <script>
       // Connect to the WebSocket server
-      const socket = io("https://garbage-tracking-backend.onrender.com"); // Replace with your server URL
+      // const socket = io("https://garbage-tracking-backend.onrender.com"); // Replace with your server URL
+
+      const socket = io("https://municipality-garbage-tracking.onrender.com/"); // Replace with your server URL
+
+      socket.on("connect", () => {
+        console.log("Socket connected successfully!");
+      });
 
       function getLocation() {
         if (navigator.geolocation) {
