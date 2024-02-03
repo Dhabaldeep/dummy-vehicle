@@ -1,66 +1,21 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Location Tracker</title>
-    <!-- Include Socket.IO client library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
   </head>
   <body>
     <h1>Location Tracker v5</h1>
-    <div id="vehicleSelector">
-      <label for="vehicleId">Select Vehicle ID:</label>
-      <select id="vehicleId" onchange="updateVehicleId()">
-        <option value="defaultVehicleId">Default Vehicle ID</option>
-        <option value="123456">Vehicle 1</option>
-        <option value="1234567">Vehicle 2</option>
-        <!-- Add more options as needed -->
-      </select>
-    </div>
-    <div id="coordinates">
-      <h2>Real-time Coordinates</h2>
-      <p id="latitude">Latitude: 0</p>
-      <p id="longitude">Longitude: 0</p>
-    </div>
+    <h2 id="log">hh</h2>
     <script>
-      // Function to update the vehicleId when the dropdown selection changes
-      function updateVehicleId() {
-        const selectedVehicleId = document.getElementById("vehicleId").value;
-
-        // Update the URL with the selected vehicleId
-        const newUrl = new URL(window.location.href);
-        newUrl.searchParams.set("vehicleId", selectedVehicleId);
-        window.history.replaceState({}, "", newUrl);
-
-        // Connect to the WebSocket server with the updated vehicleId
-        socket.io.opts.query = { vehicleId: selectedVehicleId };
-        socket.io.connect();
-      }
-
-      // Get the initial vehicleId from the query parameter
-      const urlParams = new URLSearchParams(window.location.search);
-      const initialVehicleId = urlParams.get("vehicleId") || "123456";
-
-      // Connect to the WebSocket server with the initial vehicleId
-      const socket = io("https://garbage-tracking-backend.onrender.com/", {
-        query: { vehicleId: initialVehicleId },
+      // Connect to the WebSocket server
+      const socket = io("https://garbage-tracking-backend.onrender.com"); // Replace with your server URL
+      socket.on("connect", () => {
+        console.log("Socket connected successfully!");
       });
 
-      // Listen for 'coordinatesUpdated' event
-      socket.on("coordinatesUpdated", (data) => {
-        // Update the display with the new coordinates
-        document.getElementById(
-          "latitude"
-        ).innerText = `Latitude: ${data.latitude}`;
-        document.getElementById(
-          "longitude"
-        ).innerText = `Longitude: ${data.longitude}`;
-      });
-
-      // Function to get and send location
       function getLocation() {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(sendLocation);
@@ -69,21 +24,20 @@
         }
       }
 
-      // Function to send location to the server
       function sendLocation(position) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         console.log("Got Location Successfully!");
 
-        // Emit a 'coordinatesUpdated' event to the server with vehicleId
-        socket.emit("coordinatesUpdated", {
-          vehicleId: initialVehicleId,
-          latitude,
-          longitude,
-        });
+        // Emit a 'coordinatesUpdated' event to the server
+        socket.emit("coordinatesUpdated", { latitude, longitude });
+
+        // Update the display
+        document.getElementById(
+          "log"
+        ).innerText = `Lat: ${latitude} || Long: ${longitude}`;
       }
 
-      // Set interval to get location every 1000 milliseconds (1 second)
       setInterval(getLocation, 1000);
     </script>
   </body>
