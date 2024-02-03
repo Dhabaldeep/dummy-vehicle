@@ -1,3 +1,48 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Location Tracker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+  </head>
+  <body>
+    <h1>Location Tracker v5</h1>
+    <h2 id="log">hh</h2>
+    <script>
+      // Connect to the WebSocket server
+      const socket = io("https://garbage-tracking-backend.onrender.com"); // Replace with your server URL
+      socket.on("connect", () => {
+        console.log("Socket connected successfully!");
+      });
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(sendLocation);
+        } else {
+          console.error("Error: Geolocation not supported");
+        }
+      }
+
+      function sendLocation(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        console.log("Got Location Successfully!");
+
+        // Emit a 'coordinatesUpdated' event to the server
+        socket.emit("coordinatesUpdated", { latitude, longitude });
+
+        // Update the display
+        document.getElementById(
+          "log"
+        ).innerText = `Lat: ${latitude} || Long: ${longitude}`;
+      }
+
+      setInterval(getLocation, 1000);
+    </script>
+  </body>
+</html> -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,9 +58,6 @@
     <script>
       // Connect to the WebSocket server
       const socket = io("https://garbage-tracking-backend.onrender.com"); // Replace with your server URL
-      socket.on("connect", () => {
-        console.log("Socket connected successfully!");
-      });
 
       function getLocation() {
         if (navigator.geolocation) {
