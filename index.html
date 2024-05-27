@@ -29,7 +29,7 @@
         console.log("Got Location Successfully!");
 
         // Emit a 'coordinatesUpdated' event to the server
-        socket.emit("coordinatesUpdated", { latitude, longitude });
+        socket.emit("coordinatesUpdated",  latitude, longitude );
 
         // Update the display
         document.getElementById(
